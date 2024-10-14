@@ -15,7 +15,7 @@ void emOrdemRecursiva(pNohArvore raiz, FuncaoImpressao fi){
 /* --------------------------*/
 void emOrdem(pDArvore arvore, FuncaoImpressao fi){
 
-    // chama a função recursiva
+    // chama a funï¿½ï¿½o recursiva
     emOrdemRecursiva(arvore->raiz, fi);
 
 }
