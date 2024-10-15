@@ -4,6 +4,10 @@
         "0_struct_arvore.h": "c",
         "0_struct_descritor.h": "c",
         "2_incluirinfo.h": "c",
-        "exercicio_1.h": "c"
+        "exercicio_1.h": "c",
+        "stdlib.h": "c",
+        "tad_arvore.h": "c",
+        "utils.h": "c",
+        "arvorebinaria.h": "c"
     }
 }
