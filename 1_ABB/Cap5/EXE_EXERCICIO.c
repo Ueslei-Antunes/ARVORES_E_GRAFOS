@@ -3,11 +3,10 @@
 #include "TAD_Arvore.h"
 #include "Utils.h"
 #include "Operacoes/0_struct_Descritor.h"
-#include "ArvoreBinaria.h"
-
-
+#include "Operacoes/1_criarArvore.h"
 
 int iguais(pDArvore arvore1, pDArvore arvore2, FuncaoComparacao fc);
+
 int main() {
     // Criando duas árvores
     pDArvore arvore1 = criarArvore(0);

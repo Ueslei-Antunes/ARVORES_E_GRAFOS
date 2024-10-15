@@ -8,6 +8,7 @@
         "stdlib.h": "c",
         "tad_arvore.h": "c",
         "utils.h": "c",
-        "arvorebinaria.h": "c"
+        "arvorebinaria.h": "c",
+        "1_criararvore.h": "c"
     }
 }
