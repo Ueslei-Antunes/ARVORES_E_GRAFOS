@@ -9,7 +9,12 @@
         "tad_arvore.h": "c",
         "utils.h": "c",
         "arvorebinaria.h": "c",
-        "1_criararvore.h": "c"
+        "1_criararvore.h": "c",
+        "lista.h": "c",
+        "2_1_incluirinfoinicio.h": "c",
+        "1_criarlista.h": "c",
+        "0_structs.h": "c",
+        "tad_listalinear.h": "c"
     },
     "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
 }
