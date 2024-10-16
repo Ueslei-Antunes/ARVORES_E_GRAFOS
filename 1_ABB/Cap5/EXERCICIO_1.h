@@ -37,7 +37,7 @@ int iguais (pDArvore arvore1, pDArvore arvore2, FuncaoComparacao fc) {
     free(subArvoreEsquerda2);
     free(subArvoreDireita1);
     free(subArvoreDireita2);
-    
+     
     // As árvores são iguais se ambas as subárvores forem iguais
     return iguaisEsquerda && iguaisDireita;
 }
