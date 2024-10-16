@@ -10,5 +10,6 @@
         "utils.h": "c",
         "arvorebinaria.h": "c",
         "1_criararvore.h": "c"
-    }
+    },
+    "C_Cpp.default.compilerPath": "C:\\MinGW\\bin\\gcc.exe"
 }

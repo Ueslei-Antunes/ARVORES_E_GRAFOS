@@ -3,6 +3,8 @@
 
 #include "TAD_Arvore.h"
 
+#include "Utils.h"
+
 #include "Operacoes/ArvoreBinaria/0_struct_Arvore.h"
 #include "Operacoes/0_struct_Descritor.h"
 

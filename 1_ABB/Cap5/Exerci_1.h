@@ -1,7 +1,6 @@
 #ifndef EXERCICIO_1_H
 #define EXERCICIO_1_H
 #include "ArvoreBinaria.h"
-#include "Utils.h"
 
 int iguais (pDArvore arvore1, pDArvore arvore2, FuncaoComparacao fc) {
     // Caso ambas as árvores sejam nulas, elas são iguais
