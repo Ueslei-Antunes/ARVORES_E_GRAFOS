@@ -25,7 +25,7 @@ void amplitude(pDArvore arv, FuncaoImpressao fi) {
     }
 
     destruirLista(lista); // Limpa a lista auxiliar
-
+}
 
 int main(int argc, char const *argv[])
 {
