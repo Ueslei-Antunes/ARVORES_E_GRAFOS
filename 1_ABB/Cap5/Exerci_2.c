@@ -1,5 +1,3 @@
-#ifndef EXERCICIO_2_H
-#define EXERCICIO_2_H
 #include "ArvoreBinaria.h"
 
 int estritamenteBinariaAux(pNohArvore noh) {
@@ -30,5 +28,21 @@ int estritamenteBinaria(pDArvore arvore) {
     return estritamenteBinariaAux(arvore->raiz);
 }
 
+int main() {
+    pDArvore minhaArvore = criarArvore(0);
 
-#endif
+    // Criando uma árvore estritamente binária
+    int valores[] = {10, 5, 15, 3, 7, 12, 18};
+    for (int i = 0; i < 7; i++) {
+        incluirInfo(minhaArvore, alocaInt(valores[i]), comparaInt);
+    }
+
+    // Verificando se a árvore é estritamente binária
+    if (estritamenteBinaria(minhaArvore)) {
+        printf("A árvore é estritamente binária.\n");
+    } else {
+        printf("A árvore NÃO é estritamente binária.\n");
+    }
+
+    return 0;
+}

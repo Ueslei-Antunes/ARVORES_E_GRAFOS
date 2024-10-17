@@ -1,0 +1,44 @@
+#include "ArvoreBinaria.h"
+#include "Cap3/Lista.h"
+
+void amplitude(pDArvore arv, FuncaoImpressao fi) {
+    if (!arv || !arv->raiz) return; // Verifica se a árvore está vazia
+
+    pDLista lista = criarLista(); // Cria a lista para auxiliar no caminhamento
+    incluirInfo(lista, arv->raiz); // Adiciona a raiz à lista
+
+    while (lista->quantidade > 0) {
+        // Retira o primeiro nó da lista
+        pNohArvore nohAtual = (pNohArvore) buscarInfoPos(lista, 0);
+        excluirInfo(lista, nohAtual, NULL);
+
+        // Imprime a informação do nó atual
+        fi(nohAtual->info);
+
+        // Adiciona os filhos do nó atual à lista
+        if (nohAtual->esquerda) {
+            incluirInfo(lista, nohAtual->esquerda);
+        }
+        if (nohAtual->direita) {
+            incluirInfo(lista, nohAtual->direita);
+        }
+    }
+
+    destruirLista(lista); // Limpa a lista auxiliar
+
+
+int main(int argc, char const *argv[])
+{
+    pDArvore minhaArvore = criarArvore(0);
+
+    // Inserindo valores na árvore
+    int valores[] = {10, 5, 15, 3, 7, 12, 18};
+    for (int i = 0; i < 7; i++) {
+        incluirInfo(minhaArvore, alocaInt(valores[i]), comparaInt);
+    }
+
+    // Imprimindo a árvore em amplitude
+    printf("Caminhamento em amplitude: ");
+    amplitude(minhaArvore, imprimeInt);
+    return 0;
+}

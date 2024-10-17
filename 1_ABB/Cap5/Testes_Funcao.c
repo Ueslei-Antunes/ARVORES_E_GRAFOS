@@ -33,33 +33,33 @@ void espelho(pDArvore arvore) {
     espelhoAux(arvore->raiz);
 }
 
-//######## EXERCICIO 4 ###############
-void amplitude(pDArvore arvore, FuncaoImpressao fi) {
-    if (arvoreVazia(arvore)) {
-        return; // Se a árvore estiver vazia, não faz nada
+//####### EXERCICIO 4 ###############
+/*void amplitude(pDArvore arv, FuncaoImpressao fi) {
+    if (!arv || !arv->raiz) return; // Verifica se a árvore está vazia
+
+    pDLista lista = criarLista(); // Cria a lista para auxiliar no caminhamento
+    incluirInfo(lista, arv->raiz); // Adiciona a raiz à lista
+
+    while (lista->quantidade > 0) {
+        // Retira o primeiro nó da lista
+        pNohArvore nohAtual = (pNohArvore) buscarInfoPos(lista, 0);
+        excluirInfo(lista, nohAtual, NULL);
+
+        // Imprime a informação do nó atual
+        fi(nohAtual->info);
+
+        // Adiciona os filhos do nó atual à lista
+        if (nohAtual->esquerda) {
+            incluirInfo(lista, nohAtual->esquerda);
+        }
+        if (nohAtual->direita) {
+            incluirInfo(lista, nohAtual->direita);
+        }
     }
 
-    pDLista fila = criarLista(); // Cria a lista para armazenar os nós
-    incluirInfo(fila, arvore->raiz); // Adiciona a raiz à lista
-
-    while (fila->quantidade > 0) { // Enquanto houver nós na lista
-        pNoh nohAtual = (pNoh) fila->primeiro->info; // Pega o primeiro nó
-        fi(nohAtual->info); // Aplica a função de impressão ao nó
-
-        // Enfileirar os filhos
-        if (nohAtual->esquerda != NULL) {
-            incluirInfo(fila, nohAtual->esquerda); // Adiciona o filho esquerdo
-        }
-        if (nohAtual->direita != NULL) {
-            incluirInfo(fila, nohAtual->direita); // Adiciona o filho direito
-        }
-
-        // Remove o nó atual da lista
-        excluirInfo(fila, nohAtual, comparaInt);
-    }
-
-    destruirLista(fila); // Libera a lista após o uso
+    destruirLista(lista); // Limpa a lista auxiliar
 }
+*/
 
 //######## EXERCICIO 5 ###############
 int comprimentoInternoAux(pNohArvore noh, int profundidade) {
@@ -87,41 +87,80 @@ int comprimentoInterno(pDArvore arvore) {
 }
 
 
+//####### EXERCICIO 6 #############
+// Função auxiliar que retorna a altura da árvore e verifica se está balanceada
+int alturaBalanceada(pNohArvore noh, char* balanceada) {
+    if (noh == NULL) {
+        return 0;  // Altura de árvore vazia é 0
+    }
+
+    int alturaEsquerda = alturaBalanceada(noh->esquerda, balanceada);
+    int alturaDireita  = alturaBalanceada(noh->direita, balanceada);
+
+    // Se a diferença de altura entre as subárvores for maior que 1, a árvore não é balanceada
+    if (abs(alturaEsquerda - alturaDireita) > 1) {
+        *balanceada = 0;  // Marca que a árvore não é balanceada
+    }
+
+    // Retorna a altura atual da árvore
+    return 1 + (alturaEsquerda > alturaDireita ? alturaEsquerda : alturaDireita);
+}
+
+char balanceada(pDArvore arvore) {
+    if (arvore == NULL || arvore->raiz == NULL) {
+        return 1;  // Árvore vazia é considerada balanceada
+    }
+
+    char balanceada = 1;  // Inicialmente, assume que a árvore é balanceada
+    alturaBalanceada(arvore->raiz, &balanceada);
+    return balanceada;
+}
+
+
+//####### EXERCICIO 7 #############
+int isBST(pNohArvore no, void *min, void *max, FuncaoComparacao fc) {
+    // Caso base: se o nó for NULL, é uma árvore BST válida
+    if (no == NULL) {
+        return 1;  // Verdadeiro
+    }
+
+    // Verifica se o valor do nó atual é maior ou igual ao valor máximo permitido
+    if (max != NULL && fc(no->info, max) >= 0) {
+        return 0;  // Falso
+    }
+
+    // Verifica se o valor do nó atual é menor ou igual ao valor mínimo permitido
+    if (min != NULL && fc(no->info, min) <= 0) {
+        return 0;  // Falso
+    }
+
+    // Recursivamente verifica a subárvore esquerda e direita
+    return isBST(no->esquerda, min, no->info, fc) &&  // Verifica subárvore esquerda
+           isBST(no->direita, no->info, max, fc);     // Verifica subárvore direita
+}
+
+int isBSTWrapper(pDArvore arvore, FuncaoComparacao fc) {
+    return isBST(arvore->raiz, NULL, NULL, fc);
+}
+
+void* minValue(pNohArvore no) {
+    pNohArvore atual = no;
+    while (atual->esquerda != NULL) {
+        atual = atual->esquerda;
+    }
+    return atual->info;
+}
+
+void* maxValue(pNohArvore no) {
+    pNohArvore atual = no;
+    while (atual->direita != NULL) {
+        atual = atual->direita;
+    }
+    return atual->info;
+}
+
+
 int main() {
-    /* ####### MAIN - EXERCICIO 1 ###############
-    pDArvore arvore1 = criarArvore(0);
-    pDArvore arvore2 = criarArvore(0);
-
-    // Incluindo nós nas duas árvores
-    int valor1 = 10, valor2 = 5, valor3 = 20;
-
-    incluirInfo(arvore1, alocaInt(valor1), comparaInt);
-    incluirInfo(arvore1, alocaInt(valor2), comparaInt);
-    incluirInfo(arvore1, alocaInt(valor3), comparaInt);
-
-    incluirInfo(arvore2, alocaInt(valor1), comparaInt);
-    incluirInfo(arvore2, alocaInt(valor2), comparaInt);
-    incluirInfo(arvore2, alocaInt(valor3), comparaInt);
-
-    // Verificando se as árvores são iguais
-    if (iguais(arvore1, arvore2, comparaInt)) {
-        printf("As árvores são iguais!\n");
-    } else {
-        printf("As árvores são diferentes!\n");
-    }
-
-    // Alterando uma árvore para fazer o teste com árvores diferentes
-    int valorDiferente = 15;
-    incluirInfo(arvore2, alocaInt(valorDiferente), comparaInt);
-
-    // Verificando se as árvores são iguais novamente
-    if (iguais(arvore1, arvore2, comparaInt)) {
-        printf("As árvores são iguais!\n");
-    } else {
-        printf("As árvores são diferentes!\n");
-    }
-    */
-
     /*####### MAIN - EXERCICIO 3 ###############
     
     // Criar a árvore
@@ -146,27 +185,6 @@ int main() {
     emOrdem(minhaArvore, imprimeInt);    
     */
 
-   /* ####### MAIN - EXERCICIO 4 ###############
-   
-   // Cria uma árvore binária
-    pDArvore arvore = criarArvore(1);
-
-    // Insere nós na árvore
-    int valor1 = 10, valor2 = 20, valor3 = 30, valor4 = 40, valor5 = 50;
-    incluirInfo(arvore, alocaInt(valor1), comparaInt);
-    incluirInfo(arvore, alocaInt(valor2), comparaInt);
-    incluirInfo(arvore, alocaInt(valor3), comparaInt);
-    incluirInfo(arvore, alocaInt(valor4), comparaInt);
-    incluirInfo(arvore, alocaInt(valor5), comparaInt);
-
-    // Chama a função de caminhamento em amplitude
-    printf("Caminhamento em Amplitude da Árvore:\n");
-    amplitude(arvore, imprimeInt);
-
-    // Libera a memória da árvore (implementar se necessário)
-   
-   */
-
     /*####### MAIN - EXERCICIO 5 ###############
     // Criar uma árvore binária
     pDArvore arvore = criarArvore(0); // Inicializa a árvore
@@ -188,5 +206,63 @@ int main() {
     printf("Comprimento interno da árvore: %d\n", comprimento);
 
 */
+    
+    /*####### MAIN - EXERCICIO 6 ###############
+    // Criar a árvore binária
+    pDArvore arvore = criarArvore(sizeof(int));
+
+    // Inserir alguns valores na árvore
+    int valores[] = {10, 5, 15, 3, 7, 12, 18}; // Árvore balanceada
+    for (int i = 0; i < 7; i++) {
+        incluirInfo(arvore, &valores[i], comparaInt);
+    }
+
+    // Verificar se a árvore está balanceada
+    if (balanceada(arvore)) {
+        printf("A árvore está balanceada.\n");
+    } else {
+        printf("A árvore não está balanceada.\n");
+    }
+
+    // Agora, adicionar mais um nó para desequilibrar a árvore
+    int valorDesequilibrante = 1;
+    incluirInfo(arvore, &valorDesequilibrante, comparaInt);
+
+    // Verificar novamente se a árvore está balanceada
+    if (balanceada(arvore)) {
+        printf("A árvore ainda está balanceada.\n");
+    } else {
+        printf("A árvore agora está desequilibrada.\n");
+    }
+    */
+    
+    /* ####### MAIN - EXERCICIO 7 ###############
+    pDArvore arvore = criarArvore(sizeof(int));
+
+    // Inserindo nós para formar uma BST
+    int valores[] = {10, 5, 15, 3, 7, 12, 18};
+    for (int i = 0; i < 7; i++) {
+        incluirInfo(arvore, &valores[i], comparaInt);
+    }
+
+    if (isBSTWrapper(arvore, comparaInt)) {
+        printf("A árvore é uma árvore binária de busca.\n");
+    } else {
+        printf("A árvore NÃO é uma árvore binária de busca.\n");
+    }
+    */
+
+    pDArvore minhaArvore = criarArvore(0);
+
+    // Inserindo valores na árvore
+    int valores[] = {10, 5, 15, 3, 7, 12, 18};
+    for (int i = 0; i < 7; i++) {
+        incluirInfo(minhaArvore, alocaInt(valores[i]), comparaInt);
+    }
+
+    // Imprimindo a árvore em amplitude
+    printf("Caminhamento em amplitude: ");
+    amplitude(minhaArvore, imprimeInt);
+
     return 0;
 }
